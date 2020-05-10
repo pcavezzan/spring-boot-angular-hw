@@ -1,0 +1,1 @@
+export const REST_API_URL_TOKEN = 'REST_API_BACKEND_URL';
