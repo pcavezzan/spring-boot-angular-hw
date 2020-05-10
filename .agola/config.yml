@@ -1,0 +1,50 @@
+version: v0
+
+runs:
+  - name: Spring Boot Angular Build
+    tasks:
+      - name: Backend
+        runtime:
+          type: pod
+          arch: amd64
+          containers:
+            - image: maven:3.6.3-adoptopenjdk-11
+        steps:
+          - clone:
+          - restore_cache:
+              keys:
+                - maven-dependencies
+              ## golang image sets GOPATH to /go
+              dest_dir: /root/.m2
+          ## This will create a binary called `agola-example-go` under ./bin
+          - run:
+              name: build backend
+              command: mvn clean package
+          - save_cache:
+              key: maven-dependencies
+              contents:
+                - source_dir: /root/.m2
+      - name: Frontend
+        ## This task will run the built binary in the parent task and leverages the workspace capabilities
+        runtime:
+          type: pod
+          arch: amd64
+          containers:
+            - image: node:14.2.0-stretch
+        steps:
+          - restore_cache:
+              keys:
+                - node-modules
+              ## golang image sets GOPATH to /go
+              dest_dir: node_modules/
+          - run:
+              name: test
+              command: npm run test
+          - run:
+              name: build
+              command: npm run build
+          - save_cache:
+              key: node-modules
+              contents:
+                - source_dir: node_modules/
+
