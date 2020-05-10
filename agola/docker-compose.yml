@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  agola:
+    image: sorintlab/agola
+    container_name: agola
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.agola.rule=Host(`agola.localdomain`)"
+      - "traefik.http.routers.agola.entrypoints=web"
+      - "traefik.http.services.agola.loadbalancer.server.port=8000"
+    ports:
+    - 8000:8000
+    volumes:
+      - "./agoladata:/data/agola"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./config.yml:/config.yml"
+    extra_hosts:
+      - "gitea.localdomain:172.17.0.1"
+    command: serve --embedded-etcd --components all-base,executor
+
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitea.rule=Host(`gitea.localdomain`)"
+      - "traefik.http.routers.gitea.entrypoints=web"
+      - "traefik.http.services.gitea.loadbalancer.server.port=3000"
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    volumes:
+      - "./giteadata:/data"
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    ports:
+      - "2222:22"
+
+  traefik:
+    image: "traefik:v2.2"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+networks:
+  agolastack:
