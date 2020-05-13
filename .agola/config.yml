@@ -38,8 +38,12 @@ runs:
           - restore_cache:
               keys:
                 - node-modules
-              ## golang image sets GOPATH to /go
-              dest_dir: node_modules/
+              dest_dir: frontend/node_modules/
+          - run:
+              name: install modules
+              command: |
+                cd frontend
+                npm install
           - run:
               name: test
               command: |
@@ -53,5 +57,5 @@ runs:
           - save_cache:
               key: node-modules
               contents:
-                - source_dir: node_modules/
+                - source_dir: frontend/node_modules/
 
