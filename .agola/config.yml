@@ -41,7 +41,9 @@ runs:
               dest_dir: node_modules/
           - run:
               name: test
-              command: npm run test
+              command: |
+                cd frontend
+                npm run test
           - run:
               name: build
               command: |
