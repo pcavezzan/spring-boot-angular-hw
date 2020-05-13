@@ -1,5 +1,5 @@
-agoladata/*
-giteadata/*
+**/agoladata/*
+**/giteadata/*
 
-!agoladata/.gitkeep
-!giteadata/.gitkeep
+!**/agoladata/.gitkeep
+!**/giteadata/.gitkeep
