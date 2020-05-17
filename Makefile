@@ -42,7 +42,7 @@ build-backend:
 	$(info ==============================================================)
 	$(info Construction du projet Backend								 )
 	$(info ==============================================================)
-	@cd backend && mvn clean install
+	@cd backend && mvn clean verify
 
 build-frontend:
 	$(info ==============================================================)

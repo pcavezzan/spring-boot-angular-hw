@@ -19,7 +19,7 @@ runs:
           ## This will create a binary called `agola-example-go` under ./bin
           - run:
               name: build backend
-              command: make build-backend
+              command: cd backend && mvn clean verify
           - save_cache:
               key: maven-dependencies
               contents:
