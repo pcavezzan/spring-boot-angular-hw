@@ -49,7 +49,6 @@ build-frontend:
 	$(info Construction du projet Frontend								 )
 	$(info ==============================================================)
 	@$(MAKE) -f $(THIS_FILE) _npm-install NPM_PROJECT_DIR=frontend
-	@$(MAKE) -f $(THIS_FILE) _npm-run-test NPM_PROJECT_DIR=frontend
 	@$(MAKE) -f $(THIS_FILE) _npm-run-build NPM_PROJECT_DIR=frontend
 
 
