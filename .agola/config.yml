@@ -30,7 +30,7 @@ runs:
           type: pod
           arch: amd64
           containers:
-            - image: node:14.2.0-stretch
+            - image: zenika/alpine-chrome:81-with-node-12
         steps:
           - clone:
           - restore_cache:
