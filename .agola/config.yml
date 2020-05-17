@@ -19,9 +19,7 @@ runs:
           ## This will create a binary called `agola-example-go` under ./bin
           - run:
               name: build backend
-              command: |
-                cd backend
-                mvn clean package
+              command: make build-backend
           - save_cache:
               key: maven-dependencies
               contents:
@@ -40,20 +38,8 @@ runs:
                 - node-modules
               dest_dir: frontend/node_modules/
           - run:
-              name: install modules
-              command: |
-                cd frontend
-                npm install
-          - run:
-              name: test
-              command: |
-                cd frontend
-                npm run test
-          - run:
-              name: build
-              command: |
-                cd frontend
-                npm run build
+              name: build frontend
+              command: make build-frontend
           - save_cache:
               key: node-modules
               contents:

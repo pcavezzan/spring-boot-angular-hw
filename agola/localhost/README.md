@@ -19,7 +19,7 @@ serve --embedded-etcd --components all-base,executor
 
 ### Gitea
 
-Just follow gitea instructions when you connect for the first time and only change gitea url to `http://gitea.localdoamin`.
+Just follow gitea instructions when you connect for the first time and only change gitea url to `172.17.0.1:3000`.
 Then create you first account (admin account) and create OAuth application Agolia:
 
 1) Profil --> SSH Key --> Add your public key
