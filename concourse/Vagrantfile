@@ -1,0 +1,32 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-20.04"
+
+  (0..0).each do |n|
+    config.vm.define "concourse-web-#{n}" do |c|
+        c.vm.hostname = "concourse-web-#{n}"
+        c.vm.network "private_network", ip: "192.168.60.1#{n}"
+
+        config.vm.provider "virtualbox" do |vb|
+          vb.cpus = 1
+          vb.memory = "1024"
+          vb.customize ["modifyvm", :id, "--audio", "none"]
+        end
+    end
+  end
+
+  (0..1).each do |n|
+    config.vm.define "concourse-worker-#{n}" do |c|
+        c.vm.hostname = "concourse-worker-#{n}"
+        c.vm.network "private_network", ip: "192.168.60.1#{n + 1}"
+
+        config.vm.provider "virtualbox" do |vb|
+          vb.cpus = 1
+          vb.memory = "2048"
+        end
+    end
+  end
+
+end
